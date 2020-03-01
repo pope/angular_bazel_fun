@@ -1,5 +1,11 @@
 {
   "compilerOptions": {
+    "baseUrl": "../",
+    "paths": {
+      "angular_bazel_fun/*": ["*"]
+    },
+    "strict": true,
+    "alwaysStrict": true,
     // Allow uses of these JS APIs
     "lib": [
       "dom",
