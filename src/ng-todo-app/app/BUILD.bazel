@@ -1,0 +1,21 @@
+load("@npm_angular_bazel//:index.bzl", "ng_module")
+
+package(default_visibility = ["//:__subpackages__"])
+
+ng_module(
+    name = "app",
+    srcs = [
+        "app-routing.module.ts",
+        "app.component.ts",
+        "app.module.ts",
+    ],
+    assets = [
+        "app.component.html",
+    ],
+    deps = [
+        "//src/ng-todo-app/pages/hello-world",
+        "@npm//@angular/core",
+        "@npm//@angular/router",
+        "@npm//@angular/platform-browser",
+    ],
+)
