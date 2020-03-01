@@ -1,0 +1,23 @@
+load("@io_bazel_rules_sass//:defs.bzl", "sass_binary")
+load("@npm_angular_bazel//:index.bzl", "ng_module")
+
+sass_binary(
+    name = "hello_world_styles",
+    src = "hello_world.component.scss",
+)
+
+ng_module(
+    name = "hello_world",
+    srcs = [
+        "hello_world.component.ts",
+        "hello_world.module.ts",
+    ],
+    assets = [
+        "hello_world.component.html",
+        ":hello_world_styles",
+    ],
+    deps = [
+        "@npm//@angular/core",
+        "@npm//@angular/router",
+    ],
+)
