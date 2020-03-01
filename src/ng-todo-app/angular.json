@@ -2,7 +2,7 @@
   "$schema": "../../node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "projects": {
-    "ng_todo_app": {
+    "ng-todo-app": {
       "root": "",
       "sourceRoot": "",
       "projectType": "application",
@@ -14,5 +14,5 @@
       }
     }
   },
-  "defaultProject": "ng_todo_app"
+  "defaultProject": "ng-todo-app"
 }
