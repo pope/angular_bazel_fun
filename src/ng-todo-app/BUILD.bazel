@@ -2,6 +2,7 @@ load("@npm_angular_bazel//:index.bzl", "ng_module")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 load("@npm_bazel_terser//:index.bzl", "terser_minified")
 load("@npm_bazel_typescript//:index.bzl", "ts_devserver")
+load("@npm//history-server:index.bzl", "history_server")
 load("@npm//html-insert-assets:index.bzl", "html_insert_assets")
 load("//src/pkg_web:pkg_web.bzl", "pkg_web")
 
@@ -134,5 +135,18 @@ pkg_web(
     ],
     additional_root_paths = [
         "npm/node_modules/",
+    ],
+)
+
+history_server(
+    name = "prodserver",
+    data = [":prodapp"],
+    # '-a src/prodapp' will ask history-server to scan for all apps under the
+    # given folder this will result in the following auto-configuration:
+    #   /example => src/prodapp/example
+    #   /        => src/prodapp
+    templated_args = [
+        "-a",
+        "src/ng-todo-app/prodapp",
     ],
 )
