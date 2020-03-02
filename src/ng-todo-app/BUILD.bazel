@@ -1,0 +1,127 @@
+load("@build_bazel_rules_nodejs//:index.bzl", "pkg_web")
+load("@npm_angular_bazel//:index.bzl", "ng_module")
+load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
+load("@npm_bazel_terser//:index.bzl", "terser_minified")
+load("@npm_bazel_typescript//:index.bzl", "ts_devserver")
+load("@npm//html-insert-assets:index.bzl", "html_insert_assets")
+
+package(default_visibility = ["//:__subpackages__"])
+
+ng_module(
+    name = "ng-todo-app",
+    srcs = [
+        "main.dev.ts",
+        "main.prod.ts",
+    ],
+    deps = [
+        "//src/ng-todo-app/app",
+        "@npm//@angular/animations",
+        "@npm//@angular/core",
+        "@npm//@angular/platform-browser",
+    ],
+)
+
+ASSETS = [
+    "@npm//:node_modules/zone.js/dist/zone.min.js",
+]
+
+filegroup(
+    name = "rxjs_umd_modules",
+    srcs = [
+        "rxjs_shim.js",
+        "@npm//:node_modules/rxjs/bundles/rxjs.umd.js",
+    ],
+)
+
+html_insert_assets(
+    name = "inject_scripts_for_dev",
+    outs = ["index.html"],
+    args = [
+        "--html=$(execpath :index.dev.html)",
+        "--out=$@",
+        "--roots=. $(RULEDIR)",
+        "--assets",
+    ] + ["$(execpath %s)" %s for s in ASSETS] + [
+        # This file doesn't exist during the build, but will be served by ts_devserver
+        "./_/ts_scripts.js",
+    ],
+    data = [
+        "index.dev.html",
+    ] + ASSETS
+)
+
+ts_devserver(
+    name = "devserver",
+    entry_module = "angular_bazel_fun/src/ng-todo-app/main.dev",
+    scripts = [
+        "@npm//:node_modules/tslib/tslib.js",
+        ":rxjs_umd_modules",
+    ],
+    static_files = ASSETS + [
+        ":inject_scripts_for_dev",
+        "index.dev.html",
+    ],
+    deps = [
+        ":ng-todo-app",
+    ],
+    port = 8000,
+)
+
+rollup_bundle(
+    name = "bundle-es2015",
+    format = "esm",
+    config_file = "rollup.config.js",
+    entry_points = {
+        ":main.prod.ts": "index",
+    },
+    output_dir = True,
+    deps = [
+        ":ng-todo-app",
+        "@npm//rollup-plugin-commonjs",
+        "@npm//rollup-plugin-node-resolve",
+    ],
+)
+
+rollup_bundle(
+    name = "bundle-es5",
+    format = "system",
+    config_file = "rollup.config.js",
+    entry_points = {
+        ":main.prod.ts": "index",
+    },
+    output_dir = True,
+    deps = [
+        ":ng-todo-app",
+        "@npm//rollup-plugin-commonjs",
+        "@npm//rollup-plugin-node-resolve",
+    ],
+)
+
+terser_minified(
+    name = "bundle-es2015.min",
+    src = ":bundle-es2015",
+    args = [
+        "--passes=2",
+    ],
+)
+
+terser_minified(
+    name = "bundle-es5.min",
+    src = ":bundle-es5",
+    args = [
+        "--passes=2",
+    ],
+)
+
+pkg_web(
+    name = "prodapp",
+    srcs = ASSETS + [
+        ":bundle-es5.min",
+        ":bundle-es2015.min",
+        "@npm//:node_modules/systemjs/dist/system.js",
+        "@npm//:node_modules/core-js-bundle/minified.js",
+    ],
+    additional_root_paths = [
+        "npm/node_modules/",
+    ],
+)
