@@ -1,3 +1,4 @@
+bazel-out
 bazel-out/
 dist/
 node_modules/
