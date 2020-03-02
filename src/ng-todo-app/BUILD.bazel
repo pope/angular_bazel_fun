@@ -1,11 +1,11 @@
-load("@build_bazel_rules_nodejs//:index.bzl", "pkg_web")
 load("@npm_angular_bazel//:index.bzl", "ng_module")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 load("@npm_bazel_terser//:index.bzl", "terser_minified")
 load("@npm_bazel_typescript//:index.bzl", "ts_devserver")
 load("@npm//html-insert-assets:index.bzl", "html_insert_assets")
+load("//src/pkg_web:pkg_web.bzl", "pkg_web")
 
-package(default_visibility = ["//:__subpackages__"])
+package(default_visibility = ["//visibility:private"])
 
 ng_module(
     name = "ng-todo-app",
@@ -45,9 +45,7 @@ html_insert_assets(
         # This file doesn't exist during the build, but will be served by ts_devserver
         "./_/ts_scripts.js",
     ],
-    data = [
-        "index.dev.html",
-    ] + ASSETS
+    data = [":index.dev.html"] + ASSETS,
 )
 
 ts_devserver(
@@ -65,6 +63,7 @@ ts_devserver(
         ":ng-todo-app",
     ],
     port = 8000,
+    visibility = ["//visibility:private"],
 )
 
 rollup_bundle(
@@ -113,13 +112,25 @@ terser_minified(
     ],
 )
 
+html_insert_assets(
+    name = "inject_scripts_for_prod",
+    outs = ["_prodapp/src/ng-todo-app/index.html"],
+    args = [
+        "--html=$(execpath :index.prod.html)",
+        "--out=$@",
+        "--roots=. $(RULEDIR)",
+    ],
+    data = [":index.prod.html"],
+)
+
 pkg_web(
     name = "prodapp",
     srcs = ASSETS + [
         ":bundle-es5.min",
         ":bundle-es2015.min",
-        "@npm//:node_modules/systemjs/dist/system.js",
+        ":inject_scripts_for_prod",
         "@npm//:node_modules/core-js-bundle/minified.js",
+        "@npm//:node_modules/systemjs/dist/system.js",
     ],
     additional_root_paths = [
         "npm/node_modules/",
