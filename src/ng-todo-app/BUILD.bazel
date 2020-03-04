@@ -42,7 +42,7 @@ html_insert_assets(
         "--out=$@",
         "--roots=. $(RULEDIR)",
         "--assets",
-    ] + ["$(execpath %s)" %s for s in ASSETS] + [
+    ] + ["$(execpath %s)" % s for s in ASSETS] + [
         # This file doesn't exist during the build, but will be served by ts_devserver
         "./_/ts_scripts.js",
     ],
@@ -52,6 +52,7 @@ html_insert_assets(
 ts_devserver(
     name = "devserver",
     entry_module = "angular_bazel_fun/src/ng-todo-app/main.dev",
+    port = 8000,
     scripts = [
         "@npm//:node_modules/tslib/tslib.js",
         ":rxjs_umd_modules",
@@ -60,20 +61,19 @@ ts_devserver(
         ":inject_scripts_for_dev",
         "index.dev.html",
     ],
+    visibility = ["//visibility:private"],
     deps = [
         ":ng-todo-app",
     ],
-    port = 8000,
-    visibility = ["//visibility:private"],
 )
 
 rollup_bundle(
     name = "bundle-es2015",
-    format = "esm",
     config_file = "rollup.config.js",
     entry_points = {
         ":main.prod.ts": "index",
     },
+    format = "esm",
     output_dir = True,
     deps = [
         ":ng-todo-app",
@@ -84,11 +84,11 @@ rollup_bundle(
 
 rollup_bundle(
     name = "bundle-es5",
-    format = "system",
     config_file = "rollup.config.js",
     entry_points = {
         ":main.prod.ts": "index",
     },
+    format = "system",
     output_dir = True,
     deps = [
         ":ng-todo-app",
