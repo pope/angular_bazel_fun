@@ -1,6 +1,12 @@
+load("@io_bazel_rules_sass//:defs.bzl", "sass_binary")
 load("@npm_angular_bazel//:index.bzl", "ng_module")
 
 package(default_visibility = ["//:__subpackages__"])
+
+sass_binary(
+    name = "app-styles",
+    src = "app.component.scss",
+)
 
 ng_module(
     name = "app",
@@ -10,7 +16,8 @@ ng_module(
         "app.module.ts",
     ],
     assets = [
-        "app.component.html",
+        ":app.component.html",
+        ":app-styles",
     ],
     deps = [
         "//src/ng-todo-app/pages/hello-world",
