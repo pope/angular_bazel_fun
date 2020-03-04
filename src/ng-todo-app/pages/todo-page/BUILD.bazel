@@ -1,0 +1,25 @@
+load("@io_bazel_rules_sass//:defs.bzl", "sass_binary")
+load("@npm_angular_bazel//:index.bzl", "ng_module")
+
+package(default_visibility = ["//:__subpackages__"])
+
+sass_binary(
+    name = "todo-page-styles",
+    src = "todo-page.component.scss",
+)
+
+ng_module(
+    name = "todo-page",
+    srcs = [
+        "todo-page.component.ts",
+        "todo-page.module.ts",
+    ],
+    assets = [
+        "todo-page.component.html",
+        ":todo-page-styles",
+    ],
+    deps = [
+        "@npm//@angular/core",
+        "@npm//@angular/router",
+    ],
+)
