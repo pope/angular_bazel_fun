@@ -8,5 +8,7 @@
         "relativeDownLevel"
     ],
     "typescript.extension.sortImports.sortMethod": "path",
-    "typescript.extension.sortImports.sortOnSave": true
+    "typescript.extension.sortImports.sortOnSave": true,
+    "bazel.buildifierExecutable": "/workspaces/angular_bazel_fun/node_modules/.bin/buildifier",
+    "bazel.buildifierFixOnFormat": true
 }
