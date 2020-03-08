@@ -1,0 +1,18 @@
+load("@npm_angular_bazel//:index.bzl", "ng_module")
+
+package(default_visibility = ["//:__subpackages__"])
+
+ng_module(
+    name = "store",
+    srcs = [
+        "store.actions.ts",
+        "store.module.ts",
+        "store.reducers.ts",
+        "store.state.ts",
+    ],
+    deps = [
+        "@npm//@angular/common",
+        "@npm//@angular/core",
+        "@npm//@ngrx/store",
+    ],
+)

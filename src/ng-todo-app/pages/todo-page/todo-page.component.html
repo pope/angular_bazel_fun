@@ -1,7 +1,9 @@
 <mat-toolbar>
   Todos
-  <button mat-mini-fab>
-    <mat-icon inline="true" aria-hidden="false" aria-label="Add a new todo">add</mat-icon>
+  <button mat-mini-fab (click)="addTodo()">
+    <mat-icon inline="true" aria-hidden="false" aria-label="Add a new todo">
+      add
+    </mat-icon>
   </button>
 </mat-toolbar>
 <p>Oh Kay</p>

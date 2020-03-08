@@ -11,9 +11,9 @@ sass_binary(
 ng_module(
     name = "app",
     srcs = [
-        "app-routing.module.ts",
         "app.component.ts",
         "app.module.ts",
+        "app-routing.module.ts",
     ],
     assets = [
         ":app.component.html",
@@ -23,7 +23,9 @@ ng_module(
         "//src/ng-todo-app/pages/hello-world",
         "//src/ng-todo-app/pages/todo-page",
         "@npm//@angular/core",
-        "@npm//@angular/router",
         "@npm//@angular/platform-browser",
+        "@npm//@angular/router",
+        "@npm//@ngrx/store",
+        "@npm//@ngrx/store-devtools",
     ],
 )

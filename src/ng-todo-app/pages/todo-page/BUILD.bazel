@@ -19,6 +19,7 @@ ng_module(
         ":todo-page-styles",
     ],
     deps = [
+        "//src/ng-todo-app/pages/todo-page/store",
         "//src/shared/material",
         "@npm//@angular/core",
         "@npm//@angular/router",
