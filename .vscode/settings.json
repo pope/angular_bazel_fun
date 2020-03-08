@@ -1,7 +1,7 @@
 {
     "prettier.packageManager": "yarn",
     "prettier.singleQuote": true,
-    "prettier.trailingComma": "es5",
+    "prettier.trailingComma": "all",
     "typescript.extension.sortImports.pathSortOrder": [
         "package",
         "relativeUpLevel",
@@ -10,5 +10,6 @@
     "typescript.extension.sortImports.sortMethod": "path",
     "typescript.extension.sortImports.sortOnSave": true,
     "bazel.buildifierExecutable": "/workspaces/angular_bazel_fun/node_modules/.bin/buildifier",
-    "bazel.buildifierFixOnFormat": true
+    "bazel.buildifierFixOnFormat": true,
+    "editor.formatOnSave": true
 }
