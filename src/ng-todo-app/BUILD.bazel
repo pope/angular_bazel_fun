@@ -30,6 +30,7 @@ sass_binary(
 
 ASSETS = [
     ":styles.css",
+    "@npm//:node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
     "@npm//:node_modules/zone.js/dist/zone.min.js",
 ]
 

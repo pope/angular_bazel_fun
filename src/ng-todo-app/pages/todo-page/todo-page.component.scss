@@ -1,3 +1,14 @@
 :host {
-  color: green;
+  background: #fff;
+  display: block;
+}
+
+mat-toolbar {
+  position: relative;
+}
+
+[mat-mini-fab] {
+  position: absolute;
+  bottom: -1rem;
+  right: 1rem;
 }
