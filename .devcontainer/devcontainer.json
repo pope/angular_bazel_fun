@@ -16,7 +16,8 @@
     "miclo.sort-typescript-imports",
     "ms-vscode.vscode-typescript-tslint-plugin",
     "bazelbuild.vscode-bazel",
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "angular.ng-template"
   ],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
