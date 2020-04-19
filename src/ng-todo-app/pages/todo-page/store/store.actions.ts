@@ -2,56 +2,44 @@ import { ActionCreator, createAction, props } from '@ngrx/store';
 import { TypedAction } from '@ngrx/store/src/models';
 import { TodoVisibilityFilter } from './store.state';
 
-// See https://github.com/bazelbuild/rules_nodejs/issues/1013
-// See https://github.com/microsoft/TypeScript/issues/26591
-function myCreateAction<T extends string, P extends object>(
-  type: T,
-  config: {
-    _as: 'props';
-    _p: P;
-  },
-): ActionCreator<T, (props: P) => P & TypedAction<T>> {
-  return createAction(type, config);
-}
-
 /** Action to add a new todo. */
-export const addTodo = myCreateAction('[TODO] add', props<{ text: string }>());
+export const addTodo = createAction('[TODO] add', props<{ text: string }>());
 
 /** Action to delete all completed todos. */
-export const clearCompleted = myCreateAction('[TODO] clearCompleted', props());
+export const clearCompleted = createAction('[TODO] clearCompleted', props());
 
 /** Action to delete a todo. */
-export const deleteTodo = myCreateAction(
+export const deleteTodo = createAction(
   '[TODO] delete',
   props<{ id: string }>(),
 );
 
 /** Action to edit a todo's text value. */
-export const editTodo = myCreateAction(
+export const editTodo = createAction(
   '[TODO] edit',
   props<{ id: string; text: string }>(),
 );
 
 /** Action to set the visibility filter for the todo list. */
-export const setVisibilityFilter = myCreateAction(
+export const setVisibilityFilter = createAction(
   '[TODO] setVisibilityFilter',
   props<{ visibilityFilter: TodoVisibilityFilter }>(),
 );
 
 /** Action to toggle all todo items as completed or uncompleted. */
-export const toggleAllCompleted = myCreateAction(
+export const toggleAllCompleted = createAction(
   '[TODO] toggleAllCompleted',
   props(),
 );
 
 /** Action to toggle the todo as completed or uncompleted. */
-export const toggleCompleted = myCreateAction(
+export const toggleCompleted = createAction(
   '[TODO] toggleCompleted',
   props<{ id: string }>(),
 );
 
 /** Action to toggle a todo as editable or not. */
-export const toggleEditable = myCreateAction(
+export const toggleEditable = createAction(
   '[TODO] toggleEditable',
   props<{ id: string }>(),
 );

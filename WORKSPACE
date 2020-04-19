@@ -10,26 +10,21 @@ workspace(
     managed_directories = {"@npm": ["node_modules"]},
 )
 
-# These rules are built-into Bazel but we need to load them first to download more rules
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 # Fetch rules_nodejs so we can install our npm dependencies
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "c9e59009049fa42198f7087b80398fc4b2698a0f0c7fdde4fb3540c899c9b309",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/1.4.0/rules_nodejs-1.4.0.tar.gz"],
+    sha256 = "f9e7b9f42ae202cc2d2ce6d698ccb49a9f7f7ea572a78fd451696d03ef2ee116",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/1.6.0/rules_nodejs-1.6.0.tar.gz"],
 )
 
 # Fetch sass rules for compiling sass files
 http_archive(
     name = "io_bazel_rules_sass",
-    sha256 = "c78be58f5e0a29a04686b628cf54faaee0094322ae0ac99da5a8a8afca59a647",
-    strip_prefix = "rules_sass-1.25.0",
-    urls = [
-        "https://github.com/bazelbuild/rules_sass/archive/1.25.0.zip",
-        "https://mirror.bazel.build/github.com/bazelbuild/rules_sass/archive/1.25.0.zip",
-    ],
+    sha256 = "9dcfba04e4af896626f4760d866f895ea4291bc30bf7287887cefcf4707b6a62",
+    strip_prefix = "rules_sass-1.26.3",
+    url = "https://github.com/bazelbuild/rules_sass/archive/1.26.3.zip",
 )
 
 # Check the bazel version and download npm dependencies
