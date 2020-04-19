@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { addTodo } from './store/store.actions';
-import { TODO_STORE_STATE, TodoStoreState } from './store/store.state';
+import { Todo, TODO_STORE_STATE, TodoStoreState } from './store/store.state';
 
 @Component({
   selector: 'todo-page',
@@ -13,8 +14,14 @@ import { TODO_STORE_STATE, TodoStoreState } from './store/store.state';
 })
 export class TodoPageComponent {
   constructor(
-    private readonly store: Store<{ [TODO_STORE_STATE]: TodoStoreState }>,
+    private readonly store: Store<{
+      readonly [TODO_STORE_STATE]: TodoStoreState;
+    }>,
   ) {}
+
+  readonly todos$: Observable<ReadonlyArray<Todo>> = this.store.pipe(
+    select((state) => state[TODO_STORE_STATE].todos),
+  );
 
   addTodo() {
     this.store.dispatch(addTodo({ text: '' }));

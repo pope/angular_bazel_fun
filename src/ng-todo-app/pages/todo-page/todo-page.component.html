@@ -6,4 +6,8 @@
     </mat-icon>
   </button>
 </mat-toolbar>
-<p>Oh Kay</p>
+<ul>
+  <li *ngFor="let todo of todos$ | async">
+    {{ todo.text }}
+  </li>
+</ul>

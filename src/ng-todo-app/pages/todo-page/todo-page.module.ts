@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'angular_bazel_fun/src/shared/material/material.module';
@@ -7,6 +8,7 @@ import { TodoPageComponent } from './todo-page.component';
 @NgModule({
   declarations: [TodoPageComponent],
   imports: [
+    CommonModule,
     MaterialModule,
     RouterModule,
     RouterModule.forChild([
